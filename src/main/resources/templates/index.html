@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" th:href="@{/style.css}" href="../static/style.css">
+  <meta charset="UTF-8">
+  <title>Movies</title>
+</head>
+<body>
+<h1><a th:href="@{/}">Movies</a></h1>
+
+<nav th:if="${movies.getContent().size()}">
+  <ul>
+    <li>
+      <a th:href="@{/stream}">SortStream</a>
+    </li>
+    <li>
+      <a th:href="@{/query}" href="">SortQuery</a>
+    </li>
+    <li>
+      <a th:href="@{/object}" href="">SortObject</a>
+    </li>
+  </ul>
+
+</nav>
+
+<nav th:if="${movies.getContent().size()}">
+  <ul>
+    <li>
+      <a th:href="@{/query/title}">Title</a>
+    </li>
+    <li>
+      <a th:href="@{/query/director}" >Director</a>
+    </li>
+    <li>
+      <a th:href="@{/query/year}" >Year</a>
+    </li>
+  </ul>
+
+</nav>
+
+<table th:if="${movies.getContent().size()}" class="table table-striped table-dark">
+  <thhead>
+    <tr>
+      <th><a th:href="@{/}">id</a></th>
+      <th> <a th:href="@{/object/title}">title</a></th>
+      <th><a th:href="@{/object/director}" href="">director</a></th>
+      <th><a th:href="@{/object/year}" href="">year</a></th>
+    </tr>
+  </thhead>
+  <tbody>
+  <tr th:each="movie: ${movies}" th:object="${movie}">
+    <td th:text="*{id}">id</td>
+    <td th:text="*{title}">title</td>
+    <td th:text="*{director}">title</td>
+    <td th:text="*{year}">description</td>
+  </tr>
+  </tbody>
+</table>
+
+<nav th:if="${movies.getContent().size()}" class="nav-bottom">
+  <ul>
+    <li th:if="${page > 0}">
+      <a th:href="@{__${#httpServletRequest.requestURI}__(page=${page - 1})}"> < </a>
+    </li>
+    <li th:if="${page + 1 < movies.getTotalPages()}">
+      <a  th:href="@{__${#httpServletRequest.requestURI}__(page=${page + 1})}"> > </a>
+    </li>
+  </ul>
+</nav>
+
+
+<p th:unless="${movies.getContent().size()}">There are no movies...</p>
+</body>
